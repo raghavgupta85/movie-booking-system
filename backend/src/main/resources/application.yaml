@@ -1,0 +1,20 @@
+spring:
+  application:
+    name: booking
+  datasource:
+    url: jdbc:mysql://localhost:3306/${MYSQL_DATABASE:moviebooking}
+    username: ${MYSQL_USER:booking_user}
+    password: ${MYSQL_PASSWORD:raghav5421}
+  jpa:
+    hibernate:
+      ddl-auto: none
+    open-in-view: false
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      show-details: always

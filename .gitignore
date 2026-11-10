@@ -1,0 +1,21 @@
+# env and secrets
+.env
+*.pem
+
+# Java / Maven
+target/
+*.class
+*.log
+
+# IDE
+.idea/
+*.iml
+.vscode/
+
+# Node
+node_modules/
+build/
+dist/
+
+# OS
+.DS_Store
