@@ -10,6 +10,7 @@ import com.example.booking.theatre.Theatre;
 import com.example.booking.theatre.service.TheatreService;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -53,6 +54,17 @@ public class ScreenService {
     @Transactional(readOnly = true)
     public Screen getEntity(Long id) {
         return screenRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Screen not found: " + id));
+    }
+
+    /**
+     * Loads the screen and locks its row until the CALLER's transaction ends.
+     * MANDATORY: if there is no surrounding transaction, fail loudly, because a lock
+     * released immediately would protect nothing.
+     */
+    @Transactional(propagation = Propagation.MANDATORY)
+    public Screen getEntityForUpdate(Long id) {
+        return screenRepository.findByIdForUpdate(id)
                 .orElseThrow(() -> new NotFoundException("Screen not found: " + id));
     }
 }

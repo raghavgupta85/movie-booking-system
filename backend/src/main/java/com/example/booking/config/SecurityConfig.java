@@ -49,7 +49,7 @@ public class SecurityConfig {
                 .requestMatchers(HttpMethod.GET, "/api/movies/**", "/api/theatres/**",
                         "/api/screens/**", "/api/shows/**").permitAll()
                 // every other method on these paths is admin-only
-                .requestMatchers("/api/movies/**", "/api/theatres/**", "/api/screens/**").hasRole("ADMIN")
+                .requestMatchers("/api/movies/**", "/api/theatres/**", "/api/screens/**", "/api/shows/**").hasRole("ADMIN")
                 .requestMatchers("/api/admin/**").hasRole("ADMIN")
                 .anyRequest().authenticated())
             .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);

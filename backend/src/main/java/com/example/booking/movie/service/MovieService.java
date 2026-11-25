@@ -39,6 +39,12 @@ public class MovieService {
         return MovieResponse.from(find(id));
     }
 
+    /** Used by other modules (Show) so they never touch MovieRepository directly. */
+    @Transactional(readOnly = true)
+    public Movie getEntity(Long id) {
+        return find(id);
+    }
+
     @Transactional(readOnly = true)
     public PageResponse<MovieResponse> search(String name, String genre, String language, String city,
                                               int page, int size, String sortBy, String direction) {
