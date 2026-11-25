@@ -45,8 +45,11 @@ public class SecurityConfig {
                 .accessDeniedHandler((req, res, ex) -> res.setStatus(HttpStatus.FORBIDDEN.value())))
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/api/auth/**", "/api/health", "/actuator/health/**", "/error").permitAll()
-                .requestMatchers(HttpMethod.GET, "/api/movies/**", "/api/theatres/**", "/api/shows/**").permitAll()
-                .requestMatchers("/api/movies/**").hasRole("ADMIN")
+                // public reads (must come BEFORE the admin rules, first match wins)
+                .requestMatchers(HttpMethod.GET, "/api/movies/**", "/api/theatres/**",
+                        "/api/screens/**", "/api/shows/**").permitAll()
+                // every other method on these paths is admin-only
+                .requestMatchers("/api/movies/**", "/api/theatres/**", "/api/screens/**").hasRole("ADMIN")
                 .requestMatchers("/api/admin/**").hasRole("ADMIN")
                 .anyRequest().authenticated())
             .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
