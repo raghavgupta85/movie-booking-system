@@ -15,10 +15,4 @@ public class ProfileController {
         List<String> roles = auth.getAuthorities().stream().map(a -> a.getAuthority()).toList();
         return Map.of("email", auth.getName(), "roles", roles);
     }
-
-    /** Temporary: only exists to prove the ADMIN rule. Delete after Day 3. */
-    @GetMapping("/api/admin/ping")
-    public Map<String, String> adminPing() {
-        return Map.of("message", "hello admin");
-    }
 }
